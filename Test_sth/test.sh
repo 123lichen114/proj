@@ -1,0 +1,1 @@
+streamlit run test.py --server.port 8504

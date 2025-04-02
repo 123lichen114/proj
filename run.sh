@@ -1,0 +1,1 @@
+streamlit run web_v2.py --server.port 8502
