@@ -1,14 +1,24 @@
 import os
 import re
 import json
-import openai
 from read_pdf import *
-
+from My_LLM import *
+def empty_nested_dict_values(d):
+    """
+    递归清空嵌套字典中所有的值为空字符串
+    :param d: 输入的嵌套字典
+    :return: 清空值后的嵌套字典
+    """
+    if isinstance(d, dict):
+        return {k: empty_nested_dict_values(v) for k, v in d.items()}
+    return ""
 def prompt_design(history_saved_path , use_history=True):
     if use_history:
         all_inverted_index = None
         with open(history_saved_path, 'r', encoding='utf-8') as f:
             all_inverted_index = json.load(f)
+            #将字典的值清空，只留下键
+            #empty_nested_dict_values(all_inverted_index) 
         prompt = f"""
         ### Instruction:
         你是一个招标文件解析助手，请输出一个json格式，包含了以下内容:
@@ -31,34 +41,6 @@ def prompt_design(history_saved_path , use_history=True):
         with open('Handel_pdf/prompt.txt' , 'r') as f:
             prompt = f.read()
         return prompt
-
-def ask_LLMmodel(input, prompt ,model_name = 'gpt4o'):
-    if model_name == 'gpt4o':
-        askGPT(input, prompt)
-def askGPT(input, prompt):
-    q = str(input)
-    messages = [
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": q}
-    ]
-
-    # 设置 Azure OpenAI 的 API key 和 Endpoint URL
-    api_key = 'd2ca2cab8f0f46da891dec75ae8b38ec'  # 替换为你在 Azure 上创建的 API Key
-    endpoint = 'https://coe0522.openai.azure.com/'  # 替换为你的 Endpoint URL
-
-    # 配置 OpenAI 客户端
-    openai.api_key = api_key
-    openai.api_base = endpoint
-    openai.api_type = "azure"
-    openai.api_version = "2023-05-15"  # 需要使用 GPT-4 的正确版本
-
-    # 调用 GPT-4o 模型
-    response = openai.ChatCompletion.create(
-        engine="gpt-4o",  # 使用 GPT-4o 模型
-        messages=messages,
-        temperature=0
-    )
-    return response['choices'][0]['message']['content']
 
 def clean_gpt_text_to_json(
         str_with_json,
@@ -99,6 +81,6 @@ def pdf_to_target_content(input_file):
         
         history_saved_path = "Output/all_metric_inverted_index.json"
         prompt = prompt_design(history_saved_path , use_history=True)
-        result = askGPT(pdf_content , prompt)
+        result = ask_LLMmodel(pdf_content , prompt , model_name = 'gpt4o')
         cleaned_json_result = clean_gpt_text_to_json(result, file_name)
         return cleaned_json_result, file_name

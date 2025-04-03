@@ -6,7 +6,7 @@ import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # 将当前目录添加到 sys.path 中
 sys.path.append(current_dir)
-from pdf_to_content import *
+from Handel_pdf.read_content_to_target_content import *
 from inverted_index import *
 from statistic import *
 
