@@ -1,6 +1,31 @@
 import json
 import copy
 import numpy as np
+import os
+
+def save_template(metrics_dict, file_name ,output_folder = 'Output'):
+    # 写入 JSON 文件路径
+    output_file_path = os.path.join(output_folder, "all_metric_inverted_index.json")
+
+    # 检查输出文件夹是否存在，如果不存在则创建
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # 检查 JSON 文件是否存在
+    if os.path.exists(output_file_path):
+        # 读取 JSON 文件中的数据
+        with open(output_file_path, 'r', encoding='utf-8') as f:
+            all_inverted_index = json.load(f)
+    else:
+        all_inverted_index = {}
+
+    # 将当前处理的文件的 inverted_index 添加到字典中
+    all_inverted_index[file_name] = metrics_dict
+    # 将更新后的字典写回 JSON 文件
+    with open(output_file_path, 'w', encoding='utf-8') as f:
+        json.dump(all_inverted_index, f, ensure_ascii=False, indent=4)
+    
+    
 def build_metric_inverted_index(metrics_dict, file_name):
     """
     构建倒排索引
@@ -8,11 +33,14 @@ def build_metric_inverted_index(metrics_dict, file_name):
     :param file_name: 文件名
     :return: 倒排索引字典
     """
+    save_template(metrics_dict, file_name)  
     inverted_index = {}  # 使用普通字典
     for metric, range_value in metrics_dict.items():
         if metric not in inverted_index:
             inverted_index[metric] = {}
         inverted_index[metric][file_name] = range_value
+
+
     return inverted_index
 
 def update_metric_inverted_index_json(inverted_index, json_file_path , model):

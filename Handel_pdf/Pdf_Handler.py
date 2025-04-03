@@ -73,6 +73,14 @@ def init_state(OutputFolder = 'Output/'):
     with open(title_json_file_path, 'w', encoding='utf-8') as f:
         json.dump(title_json_data, f, ensure_ascii=False, indent=4)
 
+
+    # 初始化 all_metric_inverted_index.json 文件
+    all_metric_inverted_index_path = os.path.join(OutputFolder, "all_metric_inverted_index.json")
+    all_metric_inverted_index_data = {}
+    with open(all_metric_inverted_index_path, 'w', encoding='utf-8') as f:
+        json.dump(all_metric_inverted_index_data, f, ensure_ascii=False, indent=4)
+    
+    
     # 初始化 SentenceTransformer 模型
     model = SentenceTransformer('all-MiniLM-L6-v2')
     
