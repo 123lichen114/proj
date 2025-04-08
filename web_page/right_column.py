@@ -28,6 +28,8 @@ def right_column_content(session_state):
                 file_path = session_state['uploaded_files_dict'][selected_file]['file_path']
                 st_display_pdf(file_path)
                 session_state['current_content'] = session_state['uploaded_files_dict'][selected_file]['metrics_with_class_dict']
+                with st.session_state['left_content_placeholder'].container():
+                    show_json_content(session_state['current_content'])
     else:
         session_state['right_doc_content'] = ""
         right_content_placeholder.empty()

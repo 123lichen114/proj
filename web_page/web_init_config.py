@@ -75,4 +75,6 @@ def init_web(session_state):
         st.session_state['count_title'] = {}
     if 'uploaded_files_dict' not in st.session_state:
         st.session_state['uploaded_files_dict'] = {}
+    if 'left_content_placeholder' not in st.session_state:
+        st.session_state['left_content_placeholder'] = None
     return session_state

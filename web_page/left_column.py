@@ -17,7 +17,7 @@ def left_column_content(session_state):
     uploaded_files = st.file_uploader("上传Word文档", type=["pdf"], accept_multiple_files=True)
     st.markdown('<div class="left-header"><h3>指标提取结果</h3></div>', unsafe_allow_html=True)
     left_content_placeholder = st.empty()
-
+    st.session_state['left_content_placeholder'] = left_content_placeholder
     # 处理文件上传逻辑
     if not uploaded_files:
         session_state['current_content'] = None
@@ -52,7 +52,7 @@ def left_column_content(session_state):
             # 打印错误堆栈信息到终端
             print(error_traceback)
 
-    with left_content_placeholder.container():
+    with st.session_state['left_content_placeholder'].container():
         show_json_content(session_state['current_content'])
 
     return session_state
