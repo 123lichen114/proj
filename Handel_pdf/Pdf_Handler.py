@@ -12,6 +12,7 @@ from statistic import *
 
 def Handle_input_file(input_file, metrics_json_file_path, title_json_file_path , model):
     print("call Handle_input_file function")
+    
     cleaned_json_result, source_file_name = pdf_to_target_content(input_file)
     titles_list = cleaned_json_result['titles']
     metrics_dict = cleaned_json_result['metrics']

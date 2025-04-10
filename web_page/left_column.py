@@ -29,7 +29,7 @@ def left_column_content(session_state):
             for uploaded_file in uploaded_files:
                 if uploaded_file.type == "application/pdf":
                     # 保存上传的文件到本地临时目录
-                    file_path = os.path.join("Output/temp_uploaded_pdfs", uploaded_file.name)
+                    file_path = os.path.join("Output/temp_uploaded_files", uploaded_file.name)
                     with open(file_path, "wb") as f:
                         f.write(uploaded_file.getbuffer())
                     session_state['uploaded_files_dict'][uploaded_file.name] = {}

@@ -6,7 +6,7 @@ import os
 import shutil
 
 def init_state(OutputFolder = 'Output/'):
-    temp_uploaded_pdfs_folder = os.path.join(OutputFolder,'temp_uploaded_pdfs')
+    temp_uploaded_pdfs_folder = os.path.join(OutputFolder,'temp_uploaded_files')
     empty_folder(temp_uploaded_pdfs_folder)
     # 定义指标倒排索引 JSON 数据
     metrics_json_data = {
